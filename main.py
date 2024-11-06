@@ -6,16 +6,8 @@ def search():
     url = "https://pl.wikipedia.org/wiki/Kategoria:" + wiki_name.replace(' ', '_')
     response = requests.get(url)
 
-    if response.status_code != 200:
-        print(f"Status code: {response.status_code}")
-        return
-
     soup = BeautifulSoup(response.text, "html.parser")
     pages = soup.find("div", id="mw-pages")
-
-    if not pages:
-        print("No pages")
-        return
 
     articles = [{"url": link["href"], "name": link["title"]} for link in pages.find_all("a") if "title" in link.attrs]
 
